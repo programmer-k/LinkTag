@@ -1,6 +1,8 @@
 package com.ddnsking.linktag.domain;
 
+import com.ddnsking.linktag.dto.UpdateLinkRequest;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -32,4 +34,17 @@ public class Link {
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
+    @Builder
+    public Link(String url, String title, String description) {
+        this.url = url;
+        this.title = title;
+        this.description = description;
+    }
+
+    public void update(UpdateLinkRequest updateLinkRequest) {
+        this.url = updateLinkRequest.url();
+        this.title = updateLinkRequest.title();
+        this.description = updateLinkRequest.description();
+    }
 }
