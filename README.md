@@ -50,7 +50,7 @@
 - **[H2 Database](https://www.h2database.com/)**
 - **[Lombok](https://projectlombok.org/)**
 
-## Roadmap
+## Implementation Roadmap
 
 ### v0.1
 - Basic link management (CRUD)
@@ -68,3 +68,5 @@
 - Import and export functionality
 - REST API for external integrations
 - Docker builds support for consistent deployment
+- API documentation with Swagger UI
+- Error handling
