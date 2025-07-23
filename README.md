@@ -2,8 +2,6 @@
 
 **A simple link tagging service built with Spring Boot.**
 
----
-
 ## Features
 
 ### Link Management
@@ -21,8 +19,6 @@
 ### Sharing
 - Each user can set their links as public or private.
 - Users can choose whether their links are visible only to themselves or to others.
-
----
 
 ## How to Run
 
@@ -42,8 +38,6 @@
     http://localhost:8080
     ```
 
----
-
 ## Frameworks & Libraries
 
 - **[Spring Boot](https://spring.io/projects/spring-boot)**
@@ -55,8 +49,6 @@
 - **[Thymeleaf](https://www.thymeleaf.org/)**
 - **[H2 Database](https://www.h2database.com/)**
 - **[Lombok](https://projectlombok.org/)**
-
----
 
 ## Roadmap
 
@@ -76,4 +68,3 @@
 - Import and export functionality
 - REST API for external integrations
 - Docker builds support for consistent deployment
----
