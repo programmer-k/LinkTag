@@ -23,11 +23,13 @@
             </div>
         </div>
 
-        <div class="card">
+        <div class="card mb-3">
             <div class="card-body">
-                <h5 class="card-title" th:text="'🔗 ' + ${link.title}">Link Title</h5>
-                <p class="card-text" th:text="${link.description}">Link Description</p>
-                <a th:href="${link.url}" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Open Link</a>
+                <div class="d-flex align-items-center justify-content-between">
+                    <h5 class="card-title" th:text="'🔗 ' + ${link.title}">Link Title</h5>
+                    <a th:href="${link.url}" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Open Link</a>
+                </div>
+                <p class="card-text mt-2" th:text="${link.description}">Link Description</p>
             </div>
         </div>
     </main>
