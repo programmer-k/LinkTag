@@ -21,10 +21,10 @@ public class Link {
     private Long id;
 
     @Column(nullable = false)
-    private String url;
+    private String title;
 
     @Column(nullable = false)
-    private String title;
+    private String url;
 
     @Column(nullable = false)
     private String description;
@@ -36,15 +36,15 @@ public class Link {
     private LocalDateTime updatedAt;
 
     @Builder
-    public Link(String url, String title, String description) {
-        this.url = url;
+    public Link(String title, String url, String description) {
         this.title = title;
+        this.url = url;
         this.description = description;
     }
 
     public void update(UpdateLinkRequest updateLinkRequest) {
-        this.url = updateLinkRequest.url();
         this.title = updateLinkRequest.title();
+        this.url = updateLinkRequest.url();
         this.description = updateLinkRequest.description();
     }
 }

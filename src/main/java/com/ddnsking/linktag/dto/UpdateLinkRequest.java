@@ -1,4 +1,4 @@
 package com.ddnsking.linktag.dto;
 
-public record UpdateLinkRequest(String url, String title, String description) {
+public record UpdateLinkRequest(String title, String url, String description) {
 }
