@@ -17,20 +17,21 @@ import java.util.List;
 public class LinkService {
     private final LinkRepository linkRepository;
 
-    public void createLink(CreateLinkRequest createLinkRequest) {
-        linkRepository.save(createLinkRequest.toEntity());
+    public LinkResponse createLink(CreateLinkRequest createLinkRequest) {
+        Link link = linkRepository.save(createLinkRequest.toEntity());
+        return new LinkResponse(link.getId(), link.getTitle(), link.getUrl(), link.getDescription());
     }
 
     public LinkResponse findLinkById(Long id) {
         Link link = linkRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Link not found"));
-        return new LinkResponse(link.getUrl(), link.getTitle(), link.getDescription());
+        return new LinkResponse(link.getId(), link.getTitle(), link.getUrl(), link.getDescription());
     }
 
     public List<LinkResponse> findAllLinks() {
         return linkRepository
                 .findAll()
                 .stream()
-                .map(link -> new LinkResponse(link.getUrl(), link.getTitle(), link.getDescription()))
+                .map(link -> new LinkResponse(link.getId(), link.getTitle(), link.getUrl(), link.getDescription()))
                 .toList();
     }
 
