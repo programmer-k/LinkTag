@@ -1,6 +1,7 @@
 package com.ddnsking.linktag.domain;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,6 +10,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,4 +21,10 @@ public class User {
 
     @Column(nullable = false)
     private String password;
+
+    @Builder
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
 }

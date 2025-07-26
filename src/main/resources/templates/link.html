@@ -12,7 +12,7 @@
             <a href="/links" class="btn btn-secondary">Back to List</a>
 
             <div>
-                <a th:href="@{/links/{id}/edit(id=${link.id})}" class="btn btn-warning me-2">Edit Link</a>
+                <a th:href="@{/links/{id}/edit(id=${link.id})}" class="btn btn-warning me-2">Edit</a>
 
                 <form th:action="@{/links/{id}(id=${link.id})}" method="post" class="d-inline"
                       onsubmit="return confirm('Are you sure you want to delete this link?');">
@@ -27,7 +27,7 @@
             <div class="card-body">
                 <div class="d-flex align-items-center justify-content-between">
                     <h5 class="card-title" th:text="'🔗 ' + ${link.title}">Link Title</h5>
-                    <a th:href="${link.url}" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Open Link</a>
+                    <a th:href="${link.url}" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Open</a>
                 </div>
                 <p class="card-text mt-2" th:text="${link.description}">Link Description</p>
             </div>
