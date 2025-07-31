@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 @Setter
 @Getter
 @NoArgsConstructor
+@Table(name = "links")
 public class Link {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,11 +36,16 @@ public class Link {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User createdBy;
+
     @Builder
-    public Link(String title, String url, String description) {
+    public Link(String title, String url, String description, User createdBy) {
         this.title = title;
         this.url = url;
         this.description = description;
+        this.createdBy = createdBy;
     }
 
     public void update(UpdateLinkRequest updateLinkRequest) {
