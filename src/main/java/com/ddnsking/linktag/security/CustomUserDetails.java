@@ -12,6 +12,10 @@ import java.util.Collections;
 public class CustomUserDetails implements UserDetails {
     private final User user;
 
+    public Long getUserId() {
+        return user.getId();
+    }
+
     @Override
     public String getUsername() {
         return user.getUsername();

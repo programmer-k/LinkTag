@@ -3,8 +3,10 @@ package com.ddnsking.linktag.controller;
 import com.ddnsking.linktag.dto.CreateLinkRequest;
 import com.ddnsking.linktag.dto.LinkResponse;
 import com.ddnsking.linktag.dto.UpdateLinkRequest;
+import com.ddnsking.linktag.security.CustomUserDetails;
 import com.ddnsking.linktag.service.LinkService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +20,8 @@ public class LinkController {
     private final LinkService linkService;
 
     @PostMapping
-    public String createLink(@ModelAttribute CreateLinkRequest createLinkRequest) {
-        LinkResponse link = linkService.createLink(createLinkRequest);
+    public String createLink(@ModelAttribute CreateLinkRequest createLinkRequest, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        LinkResponse link = linkService.createLink(createLinkRequest, customUserDetails.getUserId());
         return String.format("redirect:/links/%d", link.id());
     }
 
@@ -38,14 +40,14 @@ public class LinkController {
     }
 
     @PutMapping("/{id}")
-    public String updateLink(@PathVariable Long id, @ModelAttribute UpdateLinkRequest updateLinkRequest) {
-        linkService.updateLink(id, updateLinkRequest);
+    public String updateLink(@PathVariable Long id, @ModelAttribute UpdateLinkRequest updateLinkRequest, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        linkService.updateLink(id, updateLinkRequest, customUserDetails.getUserId());
         return String.format("redirect:/links/%d", id);
     }
 
     @DeleteMapping("/{id}")
-    public String deleteLinkById(@PathVariable Long id) {
-        linkService.deleteLinkById(id);
+    public String deleteLinkById(@PathVariable Long id, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        linkService.deleteLinkById(id, customUserDetails.getUserId());
         return "redirect:/links";
     }
 
