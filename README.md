@@ -48,19 +48,19 @@
 
 ## Implementation Roadmap
 
-### v0.1
+### v1.0
 - Basic link management (CRUD)
 - User authentication (login/signup)
 - In-memory DB (H2)
 - Frontend with Thymeleaf
 - Basic CI/CD pipeline setup
 
-### v0.2
+### v2.0
 - Tagging support for links
 - Public/private visibility settings
 - Persistent DB support (MySQL)
 
-### v0.3
+### v3.0
 - Import and export functionality
 - REST API for external integrations
 - Docker builds support for consistent deployment
