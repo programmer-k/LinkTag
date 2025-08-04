@@ -25,7 +25,7 @@ jobs:
       - name: Create and rename JAR file
         run: |
           ./gradlew bootJar
-          mv build/libs/linktag-*.jar build/libs/linktag.jar
+          mv build/libs/linktag-*.jar linktag.jar
 
       - name: Copy JAR file to the server
         uses: appleboy/scp-action@v1
@@ -33,7 +33,7 @@ jobs:
           host: ${{ vars.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
-          source: build/libs/linktag.jar
+          source: linktag.jar
           target: /opt/linktag/
 
       - name: Restart Spring Boot service
