@@ -38,13 +38,9 @@
     http://localhost:8080
     ```
 
-## Frameworks & Libraries
+## Tech Stack
 
 - **[Spring Boot](https://spring.io/projects/spring-boot)**
-    - Spring Web
-    - Spring Data JPA
-    - Spring Security
-    - Spring Boot DevTools
 - **[Gradle](https://gradle.org/)**
 - **[Thymeleaf](https://www.thymeleaf.org/)**
 - **[H2 Database](https://www.h2database.com/)**
