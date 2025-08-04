@@ -1,0 +1,43 @@
+name: Deploy LinkTag
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 24
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: 24
+
+      - name: Grant permission to Gradle wrapper
+        run: chmod +x ./gradlew
+
+      - name: Create JAR file
+        run: ./gradlew bootJar
+
+      - name: Copy JAR to the server
+        uses: appleboy/scp-action@v1
+        with:
+          host: ${{ vars.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          source: build/libs/linktag-*.jar
+          target: /opt/linktag/linktag.jar
+
+      - name: Restart Spring Boot service
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ vars.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          script: sudo systemctl restart linktag.service
