@@ -22,24 +22,24 @@ jobs:
       - name: Grant permission to Gradle wrapper
         run: chmod +x ./gradlew
 
-      - name: Create JAR file
-        run: ./gradlew bootJar
+      - name: Create and rename JAR file
+        run: |
+          ./gradlew bootJar
+          mv build/libs/linktag-*.jar build/libs/linktag.jar
 
-      - name: Copy JAR to the server
+      - name: Copy JAR file to the server
         uses: appleboy/scp-action@v1
         with:
           host: ${{ vars.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
-          source: build/libs/linktag-*.jar
+          source: build/libs/linktag.jar
           target: /opt/linktag/
 
-      - name: Rename JAR and restart Spring Boot service
+      - name: Restart Spring Boot service
         uses: appleboy/ssh-action@v1
         with:
           host: ${{ vars.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
-          script: |
-            mv /opt/linktag/linktag-*.jar /opt/linktag/linktag.jar
-            sudo systemctl restart linktag.service
+          script: sudo systemctl restart linktag.service
