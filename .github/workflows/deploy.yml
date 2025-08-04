@@ -32,12 +32,14 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
           source: build/libs/linktag-*.jar
-          target: /opt/linktag/linktag.jar
+          target: /opt/linktag/
 
-      - name: Restart Spring Boot service
+      - name: Rename JAR and restart Spring Boot service
         uses: appleboy/ssh-action@v1
         with:
           host: ${{ vars.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
-          script: sudo systemctl restart linktag.service
+          script: |
+            mv /opt/linktag/linktag-*.jar /opt/linktag/linktag.jar
+            sudo systemctl restart linktag.service
