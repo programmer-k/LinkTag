@@ -5,14 +5,14 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Setter
 @Getter
 @NoArgsConstructor
 @Table(name = "links")
@@ -39,6 +39,14 @@ public class Link {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User createdBy;
+
+    @ManyToMany
+    @JoinTable(
+            name = "link_tag",
+            joinColumns = @JoinColumn(name = "link_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
+    private List<Tag> tags = new ArrayList<>();
 
     @Builder
     public Link(String title, String url, String description, User createdBy) {
