@@ -1,11 +1,13 @@
 package com.ddnsking.linktag.service;
 
 import com.ddnsking.linktag.domain.Link;
+import com.ddnsking.linktag.domain.Tag;
 import com.ddnsking.linktag.domain.User;
 import com.ddnsking.linktag.dto.CreateLinkRequest;
 import com.ddnsking.linktag.dto.LinkResponse;
 import com.ddnsking.linktag.dto.UpdateLinkRequest;
 import com.ddnsking.linktag.repository.LinkRepository;
+import com.ddnsking.linktag.repository.TagRepository;
 import com.ddnsking.linktag.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -18,14 +20,21 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class LinkService {
+    private final TagService tagService;
     private final LinkRepository linkRepository;
+    private final TagRepository tagRepository;
     private final UserRepository userRepository;
 
     @Transactional
     public LinkResponse createLink(CreateLinkRequest createLinkRequest, Long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found"));
-        Link link = linkRepository.save(createLinkRequest.toEntity(user));
-        return new LinkResponse(link.getId(), link.getTitle(), link.getUrl(), link.getDescription());
+
+        List<Tag> tags = tagService.findOrCreateAll(createLinkRequest.parseTags());
+        Link link = createLinkRequest.toEntity(user, tags);
+        tags.forEach(tag -> tag.getLinks().add(link));
+
+        Link savedLink = linkRepository.save(link);
+        return new LinkResponse(savedLink.getId(), savedLink.getTitle(), savedLink.getUrl(), savedLink.getDescription());
     }
 
     public LinkResponse findLinkById(Long id) {
