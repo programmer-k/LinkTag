@@ -56,9 +56,20 @@ public class Link {
         this.createdBy = createdBy;
     }
 
-    public void update(UpdateLinkRequest updateLinkRequest) {
+    public List<Tag> update(UpdateLinkRequest updateLinkRequest, List<Tag> tags) {
         this.title = updateLinkRequest.title();
         this.url = updateLinkRequest.url();
         this.description = updateLinkRequest.description();
+
+        List<Tag> oldTags = new ArrayList<>(this.tags);
+        for (Tag oldTag : oldTags) {
+            oldTag.getLinks().remove(this);
+        }
+
+        this.tags.clear();
+        this.tags.addAll(tags);
+        tags.forEach(tag -> tag.getLinks().add(this));
+
+        return oldTags;
     }
 }

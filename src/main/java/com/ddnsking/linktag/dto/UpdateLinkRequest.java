@@ -1,4 +1,13 @@
 package com.ddnsking.linktag.dto;
 
-public record UpdateLinkRequest(String title, String url, String description) {
+import java.util.Arrays;
+import java.util.List;
+
+public record UpdateLinkRequest(String title, String url, String description, String tags) {
+    public List<String> parseTags() {
+        return Arrays.stream(tags.split(","))
+                .map(String::trim)
+                .filter(s -> !s.isEmpty())
+                .toList();
+    }
 }

@@ -7,6 +7,7 @@ import com.ddnsking.linktag.dto.CreateLinkRequest;
 import com.ddnsking.linktag.dto.LinkResponse;
 import com.ddnsking.linktag.dto.UpdateLinkRequest;
 import com.ddnsking.linktag.repository.LinkRepository;
+import com.ddnsking.linktag.repository.TagRepository;
 import com.ddnsking.linktag.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -14,12 +15,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class LinkService {
     private final TagService tagService;
+    private final TagRepository tagRepository;
     private final LinkRepository linkRepository;
     private final UserRepository userRepository;
 
@@ -64,12 +67,20 @@ public class LinkService {
 
     @Transactional
     public void updateLink(Long id, UpdateLinkRequest updateLinkRequest, Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found"));
         Link link = linkRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Link not found"));
 
         if (!link.getCreatedBy().getId().equals(userId))
             throw new AccessDeniedException("User is not the owner of this link.");
 
-        link.update(updateLinkRequest);
+        List<Tag> tags = tagService.findOrCreateAll(updateLinkRequest.parseTags());
+        List<Tag> oldTags = link.update(updateLinkRequest, tags);
+
+        for (Tag oldTag : oldTags) {
+            if (oldTag.getLinks().isEmpty()) {
+                tagRepository.delete(oldTag);
+            }
+        }
     }
 
     @Transactional
