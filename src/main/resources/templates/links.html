@@ -28,6 +28,10 @@
                     <a th:href="@{/links/{id}(id=${link.id})}" class="btn btn-primary">View Details</a>
                 </div>
                 <p class="card-text mt-2" th:text="${link.description}">Link Description</p>
+
+                <div class="mt-2">
+                    <span th:each="tag : ${link.tags}" class="badge bg-secondary me-1" th:text="${tag}">Tag</span>
+                </div>
             </div>
         </div>
     </main>

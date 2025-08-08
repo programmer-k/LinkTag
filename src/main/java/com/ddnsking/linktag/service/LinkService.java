@@ -7,7 +7,6 @@ import com.ddnsking.linktag.dto.CreateLinkRequest;
 import com.ddnsking.linktag.dto.LinkResponse;
 import com.ddnsking.linktag.dto.UpdateLinkRequest;
 import com.ddnsking.linktag.repository.LinkRepository;
-import com.ddnsking.linktag.repository.TagRepository;
 import com.ddnsking.linktag.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -22,7 +21,6 @@ import java.util.List;
 public class LinkService {
     private final TagService tagService;
     private final LinkRepository linkRepository;
-    private final TagRepository tagRepository;
     private final UserRepository userRepository;
 
     @Transactional
@@ -34,19 +32,33 @@ public class LinkService {
         tags.forEach(tag -> tag.getLinks().add(link));
 
         Link savedLink = linkRepository.save(link);
-        return new LinkResponse(savedLink.getId(), savedLink.getTitle(), savedLink.getUrl(), savedLink.getDescription());
+        return new LinkResponse(savedLink.getId(),
+                savedLink.getTitle(),
+                savedLink.getUrl(),
+                savedLink.getDescription(),
+                savedLink.getTags().stream().map(Tag::getName).toList()
+        );
     }
 
     public LinkResponse findLinkById(Long id) {
         Link link = linkRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Link not found"));
-        return new LinkResponse(link.getId(), link.getTitle(), link.getUrl(), link.getDescription());
+        return new LinkResponse(link.getId(),
+                link.getTitle(),
+                link.getUrl(),
+                link.getDescription(),
+                link.getTags().stream().map(Tag::getName).toList()
+        );
     }
 
     public List<LinkResponse> findAllLinks() {
         return linkRepository
                 .findAll()
                 .stream()
-                .map(link -> new LinkResponse(link.getId(), link.getTitle(), link.getUrl(), link.getDescription()))
+                .map(link -> new LinkResponse(link.getId(),
+                        link.getTitle(),
+                        link.getUrl(),
+                        link.getDescription(),
+                        link.getTags().stream().map(Tag::getName).toList()))
                 .toList();
     }
 
