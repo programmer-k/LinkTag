@@ -85,11 +85,20 @@ public class LinkService {
 
     @Transactional
     public void deleteLinkById(Long id, Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found"));
         Link link = linkRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Link not found"));
 
         if (!link.getCreatedBy().getId().equals(userId))
             throw new AccessDeniedException("User is not the owner of this link.");
 
+        List<Tag> tags = link.getTags();
+        tags.forEach(tag -> tag.getLinks().remove(link));
         linkRepository.deleteById(id);
+
+        for (Tag tag : tags) {
+            if (tag.getLinks().isEmpty()) {
+                tagRepository.delete(tag);
+            }
+        }
     }
 }
