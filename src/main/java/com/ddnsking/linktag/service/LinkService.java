@@ -8,10 +8,10 @@ import com.ddnsking.linktag.dto.LinkResponse;
 import com.ddnsking.linktag.dto.UpdateLinkRequest;
 import com.ddnsking.linktag.repository.LinkRepository;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -40,6 +40,7 @@ public class LinkService {
         );
     }
 
+    @Transactional(readOnly = true)
     public LinkResponse findLinkById(Long id, Long userId) {
         userService.findUserByIdOrThrow(userId);
         Link link = linkRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Link not found"));
@@ -57,6 +58,7 @@ public class LinkService {
         );
     }
 
+    @Transactional(readOnly = true)
     public List<LinkResponse> findAllLinks(Long userId) {
         userService.findUserByIdOrThrow(userId);
 

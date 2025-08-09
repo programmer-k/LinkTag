@@ -7,6 +7,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -14,6 +15,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
+    @Transactional
     public boolean createUser(CreateUserRequest createUserRequest) {
         if (userRepository.existsByUsername(createUserRequest.username()))
             return false;
@@ -27,6 +29,7 @@ public class UserService {
         return true;
     }
 
+    @Transactional(readOnly = true)
     public User findUserByIdOrThrow(Long userId) {
         return userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found"));
     }
