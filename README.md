@@ -28,12 +28,22 @@
     cd LinkTag
     ```
 
-2. Run the app:
+2. (Optional for production) Set up MySQL with Docker:
+   ```bash
+   docker run --name linktag-mysql \
+     -e MYSQL_ROOT_PASSWORD=your-secret-password \
+     -e MYSQL_DATABASE=linktag \
+     -p 3306:3306 \
+     --restart unless-stopped \
+     -d mysql:latest
+   ```
+
+3. Run the app:
     ```bash
     ./gradlew bootRun
     ```
 
-3. Open in browser:
+4. Open in browser:
     ```
     http://localhost:8080
     ```
@@ -44,6 +54,8 @@
 - **[Gradle](https://gradle.org/)**
 - **[Thymeleaf](https://www.thymeleaf.org/)**
 - **[H2 Database](https://www.h2database.com/)**
+- **[MySQL](https://www.mysql.com/)**
+- **[GitHub Actions](https://github.com/features/actions)**
 - **[Lombok](https://projectlombok.org/)**
 
 ## Implementation Roadmap
