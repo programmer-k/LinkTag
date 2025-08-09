@@ -5,14 +5,14 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Setter
 @Getter
 @NoArgsConstructor
 @Table(name = "links")
@@ -40,6 +40,14 @@ public class Link {
     @JoinColumn(name = "user_id")
     private User createdBy;
 
+    @ManyToMany
+    @JoinTable(
+            name = "link_tag",
+            joinColumns = @JoinColumn(name = "link_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
+    private List<Tag> tags = new ArrayList<>();
+
     @Builder
     public Link(String title, String url, String description, User createdBy) {
         this.title = title;
@@ -48,9 +56,20 @@ public class Link {
         this.createdBy = createdBy;
     }
 
-    public void update(UpdateLinkRequest updateLinkRequest) {
+    public List<Tag> update(UpdateLinkRequest updateLinkRequest, List<Tag> tags) {
         this.title = updateLinkRequest.title();
         this.url = updateLinkRequest.url();
         this.description = updateLinkRequest.description();
+
+        List<Tag> oldTags = new ArrayList<>(this.tags);
+        for (Tag oldTag : oldTags) {
+            oldTag.getLinks().remove(this);
+        }
+
+        this.tags.clear();
+        this.tags.addAll(tags);
+        tags.forEach(tag -> tag.getLinks().add(this));
+
+        return oldTags;
     }
 }

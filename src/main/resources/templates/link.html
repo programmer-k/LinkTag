@@ -30,6 +30,10 @@
                     <a th:href="${link.url}" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Open</a>
                 </div>
                 <p class="card-text mt-2" th:text="${link.description}">Link Description</p>
+
+                <div class="mt-2">
+                    <span th:each="tag : ${link.tags}" class="badge bg-secondary me-1" th:text="${tag}">Tag</span>
+                </div>
             </div>
         </div>
     </main>

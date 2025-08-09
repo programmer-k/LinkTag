@@ -3,6 +3,7 @@ package com.ddnsking.linktag.service;
 import com.ddnsking.linktag.domain.User;
 import com.ddnsking.linktag.dto.CreateUserRequest;
 import com.ddnsking.linktag.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -24,5 +25,9 @@ public class UserService {
 
         userRepository.save(user);
         return true;
+    }
+
+    public User findUserByIdOrThrow(Long userId) {
+        return userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found"));
     }
 }
