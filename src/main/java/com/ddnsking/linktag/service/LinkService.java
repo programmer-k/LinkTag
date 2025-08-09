@@ -21,12 +21,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class LinkService {
     private final TagService tagService;
+    private final UserService userService;
     private final LinkRepository linkRepository;
-    private final UserRepository userRepository;
 
     @Transactional
     public LinkResponse createLink(CreateLinkRequest createLinkRequest, Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found"));
+        User user = userService.findUserByIdOrThrow(userId);
 
         List<Tag> tags = tagService.findOrCreateAll(createLinkRequest.parseTags());
         Link link = createLinkRequest.toEntity(user, tags);
@@ -65,7 +65,7 @@ public class LinkService {
 
     @Transactional
     public void updateLink(Long id, UpdateLinkRequest updateLinkRequest, Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found"));
+        userService.findUserByIdOrThrow(userId);
         Link link = linkRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Link not found"));
 
         if (!link.getCreatedBy().getId().equals(userId))
@@ -81,7 +81,7 @@ public class LinkService {
 
     @Transactional
     public void deleteLinkById(Long id, Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found"));
+        userService.findUserByIdOrThrow(userId);
         Link link = linkRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Link not found"));
 
         if (!link.getCreatedBy().getId().equals(userId))
