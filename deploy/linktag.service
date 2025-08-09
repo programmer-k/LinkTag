@@ -5,7 +5,7 @@ After=network.target
 [Service]
 User=ubuntu
 WorkingDirectory=/opt/linktag
-Environment="LINKTAG_DB_PASSWORD=my-secret-pw"
+Environment="LINKTAG_DB_PASSWORD=your-secret-password"
 ExecStart=/usr/bin/java -jar linktag.jar --spring.profiles.active=prod --spring.datasource.password=${LINKTAG_DB_PASSWORD}
 SuccessExitStatus=143
 Restart=always
