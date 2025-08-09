@@ -7,13 +7,14 @@ import com.ddnsking.linktag.domain.User;
 import java.util.Arrays;
 import java.util.List;
 
-public record CreateLinkRequest(String title, String url, String description, String tags) {
+public record CreateLinkRequest(String title, String url, String description, String tags, Boolean isPublic) {
     public Link toEntity(User createdBy, List<Tag> tags) {
         Link link = Link.builder()
                 .title(title)
                 .url(url)
                 .description(description)
                 .createdBy(createdBy)
+                .isPublic(isPublic != null ? isPublic : false)
                 .build();
         link.getTags().addAll(tags);
         return link;

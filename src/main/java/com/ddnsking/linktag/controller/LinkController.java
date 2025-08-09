@@ -26,15 +26,15 @@ public class LinkController {
     }
 
     @GetMapping("/{id}")
-    public String findLinkById(@PathVariable Long id, Model model) {
-        LinkResponse linkResponse = linkService.findLinkById(id);
+    public String findLinkById(@PathVariable Long id, Model model, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        LinkResponse linkResponse = linkService.findLinkById(id, customUserDetails.getUserId());
         model.addAttribute("link", linkResponse);
         return "link";
     }
 
     @GetMapping
-    public String findAllLinks(Model model) {
-        List<LinkResponse> links = linkService.findAllLinks();
+    public String findAllLinks(Model model, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        List<LinkResponse> links = linkService.findAllLinks(customUserDetails.getUserId());
         model.addAttribute("links", links);
         return "links";
     }
@@ -57,8 +57,8 @@ public class LinkController {
     }
 
     @GetMapping("/{id}/edit")
-    public String showEditLinkForm(@PathVariable Long id, Model model) {
-        LinkResponse link = linkService.findLinkById(id);
+    public String showEditLinkForm(@PathVariable Long id, Model model, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        LinkResponse link = linkService.findLinkById(id, customUserDetails.getUserId());
         model.addAttribute("link", link);
         return "link-edit";
     }
