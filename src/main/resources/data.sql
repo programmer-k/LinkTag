@@ -1,7 +1,7 @@
 INSERT INTO users (id, username, password) VALUES (1, 'test', '$2a$10$6gCb/kdLD6uIdPCOQKBfv.kVwpNuxIda90jzRNQiZkTK3BTKQe6Zm');
 
-INSERT INTO links (title, url, description, user_id, is_public) VALUES ('Google', 'https://www.google.com', 'google', 1, TRUE);
-INSERT INTO links (title, url, description, user_id, is_public) VALUES ('Naver', 'https://www.naver.com', 'naver', 1, TRUE);
+INSERT INTO links (title, url, description, created_at, updated_at, user_id, is_public) VALUES ('Google', 'https://www.google.com', 'google', NOW(), NOW(), 1, TRUE);
+INSERT INTO links (title, url, description, created_at, updated_at, user_id, is_public) VALUES ('Naver', 'https://www.naver.com', 'naver', NOW(), NOW(), 1, TRUE);
 
 INSERT INTO tags (id, name) VALUES (1, 'portal');
 INSERT INTO tags (id, name) VALUES (2, 'shopping');
