@@ -4,7 +4,6 @@ import com.ddnsking.linktag.domain.User;
 import com.ddnsking.linktag.dto.CreateUserRequest;
 import com.ddnsking.linktag.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

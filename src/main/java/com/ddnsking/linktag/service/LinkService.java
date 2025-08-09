@@ -7,8 +7,6 @@ import com.ddnsking.linktag.dto.CreateLinkRequest;
 import com.ddnsking.linktag.dto.LinkResponse;
 import com.ddnsking.linktag.dto.UpdateLinkRequest;
 import com.ddnsking.linktag.repository.LinkRepository;
-import com.ddnsking.linktag.repository.TagRepository;
-import com.ddnsking.linktag.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
