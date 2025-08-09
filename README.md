@@ -1,5 +1,8 @@
 # LinkTag
 
+[![Build LinkTag](https://github.com/programmer-k/LinkTag/actions/workflows/build.yml/badge.svg)](https://github.com/programmer-k/LinkTag/actions/workflows/build.yml)
+[![Deploy LinkTag](https://github.com/programmer-k/LinkTag/actions/workflows/deploy.yml/badge.svg)](https://github.com/programmer-k/LinkTag/actions/workflows/deploy.yml)
+
 **A simple link tagging service built with Spring Boot.**
 
 ## Features
