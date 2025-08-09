@@ -35,29 +35,41 @@ public class LinkService {
                 savedLink.getTitle(),
                 savedLink.getUrl(),
                 savedLink.getDescription(),
-                savedLink.getTags().stream().map(Tag::getName).toList()
+                savedLink.getTags().stream().map(Tag::getName).toList(),
+                savedLink.getIsPublic()
         );
     }
 
-    public LinkResponse findLinkById(Long id) {
+    public LinkResponse findLinkById(Long id, Long userId) {
+        userService.findUserByIdOrThrow(userId);
         Link link = linkRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Link not found"));
+
+        if (!(link.getIsPublic() || link.getCreatedBy().getId().equals(userId))) {
+            throw new AccessDeniedException("Access denied");
+        }
+
         return new LinkResponse(link.getId(),
                 link.getTitle(),
                 link.getUrl(),
                 link.getDescription(),
-                link.getTags().stream().map(Tag::getName).toList()
+                link.getTags().stream().map(Tag::getName).toList(),
+                link.getIsPublic()
         );
     }
 
-    public List<LinkResponse> findAllLinks() {
+    public List<LinkResponse> findAllLinks(Long userId) {
+        userService.findUserByIdOrThrow(userId);
+
         return linkRepository
                 .findAll()
                 .stream()
+                .filter(link -> link.getIsPublic() || link.getCreatedBy().getId().equals(userId))
                 .map(link -> new LinkResponse(link.getId(),
                         link.getTitle(),
                         link.getUrl(),
                         link.getDescription(),
-                        link.getTags().stream().map(Tag::getName).toList()))
+                        link.getTags().stream().map(Tag::getName).toList(),
+                        link.getIsPublic()))
                 .toList();
     }
 
