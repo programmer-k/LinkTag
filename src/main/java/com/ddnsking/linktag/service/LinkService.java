@@ -21,7 +21,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class LinkService {
     private final TagService tagService;
-    private final TagRepository tagRepository;
     private final LinkRepository linkRepository;
     private final UserRepository userRepository;
 
@@ -76,9 +75,7 @@ public class LinkService {
         List<Tag> oldTags = link.update(updateLinkRequest, tags);
 
         for (Tag oldTag : oldTags) {
-            if (oldTag.getLinks().isEmpty()) {
-                tagRepository.delete(oldTag);
-            }
+            tagService.deleteIfOrphan(oldTag);
         }
     }
 
@@ -95,9 +92,7 @@ public class LinkService {
         linkRepository.deleteById(id);
 
         for (Tag tag : tags) {
-            if (tag.getLinks().isEmpty()) {
-                tagRepository.delete(tag);
-            }
+            tagService.deleteIfOrphan(tag);
         }
     }
 }

@@ -25,4 +25,11 @@ public class TagService {
                 .map(this::findOrCreate)
                 .toList();
     }
+
+    @Transactional
+    void deleteIfOrphan(Tag tag) {
+        if (tag.getLinks().isEmpty()) {
+            tagRepository.delete(tag);
+        }
+    }
 }
