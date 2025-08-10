@@ -9,10 +9,14 @@ import com.ddnsking.linktag.dto.UpdateLinkRequest;
 import com.ddnsking.linktag.repository.LinkRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Service
@@ -21,6 +25,7 @@ public class LinkService {
     private final TagService tagService;
     private final UserService userService;
     private final LinkRepository linkRepository;
+    private final TemplateEngine templateEngine;
 
     @Transactional
     public LinkResponse createLink(CreateLinkRequest createLinkRequest, Long userId) {
@@ -106,5 +111,21 @@ public class LinkService {
         for (Tag tag : tags) {
             tagService.deleteIfOrphan(tag);
         }
+    }
+
+    @Transactional(readOnly = true)
+    public ByteArrayResource exportAllLinks(Long userId) {
+        userService.findUserByIdOrThrow(userId);
+
+        List<Link> links = linkRepository.findAll()
+                .stream()
+                .filter(link -> link.getIsPublic() || link.getCreatedBy().getId().equals(userId))
+                .toList();
+
+        Context context = new Context();
+        context.setVariable("links", links);
+
+        String html = templateEngine.process("links-export", context);
+        return new ByteArrayResource(html.getBytes(StandardCharsets.UTF_8));
     }
 }

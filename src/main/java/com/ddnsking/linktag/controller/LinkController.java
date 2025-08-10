@@ -6,6 +6,10 @@ import com.ddnsking.linktag.dto.UpdateLinkRequest;
 import com.ddnsking.linktag.security.CustomUserDetails;
 import com.ddnsking.linktag.service.LinkService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -61,5 +65,14 @@ public class LinkController {
         LinkResponse link = linkService.findLinkById(id, customUserDetails.getUserId());
         model.addAttribute("link", link);
         return "link-edit";
+    }
+
+    @GetMapping("/export")
+    public ResponseEntity<Resource> exportAllLinks(Model model, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        Resource links = linkService.exportAllLinks(customUserDetails.getUserId());
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=links.html")
+                .contentType(MediaType.TEXT_HTML)
+                .body(links);
     }
 }
