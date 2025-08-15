@@ -9,6 +9,10 @@ import com.ddnsking.linktag.dto.UpdateLinkRequest;
 import com.ddnsking.linktag.repository.LinkRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
@@ -127,5 +131,20 @@ public class LinkService {
 
         String html = templateEngine.process("links-export", context);
         return new ByteArrayResource(html.getBytes(StandardCharsets.UTF_8));
+    }
+
+    @Transactional
+    public void importAllLinks(String html, Long userId) {
+        userService.findUserByIdOrThrow(userId);
+
+        Document document = Jsoup.parse(html);
+        Elements links = document.select("a");
+
+        for (Element link : links) {
+            String title = link.text();
+            String url = link.attr("href");
+
+            createLink(new CreateLinkRequest(title, url, "", "", false), userId);
+        }
     }
 }
