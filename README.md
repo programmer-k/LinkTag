@@ -79,6 +79,5 @@
 ### v3.0
 - Import and export functionality
 - REST API for external integrations
-- Docker builds support for consistent deployment
 - API documentation with Swagger UI
 - Error handling
