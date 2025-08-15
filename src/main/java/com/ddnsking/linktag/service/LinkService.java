@@ -68,13 +68,16 @@ public class LinkService {
     }
 
     @Transactional(readOnly = true)
-    public List<LinkResponse> findAllLinks(Long userId) {
+    public List<LinkResponse> findAllLinks(Long userId, String title, String username, String tag) {
         userService.findUserByIdOrThrow(userId);
 
         return linkRepository
                 .findAll()
                 .stream()
                 .filter(link -> link.getIsPublic() || link.getCreatedBy().getId().equals(userId))
+                .filter(link -> title == null || title.isEmpty() || link.getTitle().contains(title))
+                .filter(link -> username == null || username.isEmpty() || link.getCreatedBy().getUsername().equals(username))
+                .filter(link -> tag == null || tag.isEmpty() || link.getTags().stream().map(Tag::getName).anyMatch(name -> name.equals(tag)))
                 .map(link -> new LinkResponse(link.getId(),
                         link.getTitle(),
                         link.getUrl(),
