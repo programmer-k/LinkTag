@@ -13,7 +13,7 @@
 
 ### Tagging
 - Tag your links for easy categorization.
-- Show related links by tags
+- Show related links by tags.
 
 ### Import / Export
 - Import links from external sources.
