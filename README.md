@@ -56,6 +56,7 @@
 - **[Spring Boot](https://spring.io/projects/spring-boot)**
 - **[Gradle](https://gradle.org/)**
 - **[Thymeleaf](https://www.thymeleaf.org/)**
+- **[jsoup](https://jsoup.org/)**
 - **[H2 Database](https://www.h2database.com/)**
 - **[MySQL](https://www.mysql.com/)**
 - **[GitHub Actions](https://github.com/features/actions)**
