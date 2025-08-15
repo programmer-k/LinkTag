@@ -40,9 +40,17 @@ public class LinkController {
     }
 
     @GetMapping
-    public String findAllLinks(Model model, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
-        List<LinkResponse> links = linkService.findAllLinks(customUserDetails.getUserId());
+    public String findAllLinks(
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) String username,
+            @RequestParam(required = false) String tag,
+            Model model,
+            @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        List<LinkResponse> links = linkService.findAllLinks(customUserDetails.getUserId(), title, username, tag);
         model.addAttribute("links", links);
+        model.addAttribute("title", title);
+        model.addAttribute("username", username);
+        model.addAttribute("tag", tag);
         return "links";
     }
 
