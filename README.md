@@ -13,7 +13,7 @@
 
 ### Tagging
 - Tag your links for easy categorization.
-- Filter links by tags.
+- Show related links by tags
 
 ### Import / Export
 - Import links from external sources.
@@ -80,4 +80,6 @@
 - Import and export functionality
 - REST API for external integrations
 - API documentation with Swagger UI
-- Error handling
+- Filter links by title, user, and tag
+- Show other links with overlapping tags
+- Error handling`
