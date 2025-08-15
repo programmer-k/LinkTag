@@ -26,12 +26,12 @@
 
         <div class="mb-3">
             <label for="description" class="form-label">Description</label>
-            <textarea class="form-control" id="description" name="description" rows="3" placeholder="Link Description" required th:text="${link.description}"></textarea>
+            <textarea class="form-control" id="description" name="description" rows="3" placeholder="Link Description" th:text="${link.description}"></textarea>
         </div>
 
         <div class="mb-3">
             <label for="tags" class="form-label">Tags (comma separated)</label>
-            <input type="text" class="form-control" id="tags" name="tags" placeholder="Link Tags" required th:value="${#strings.listJoin(link.tags, ', ')}">
+            <input type="text" class="form-control" id="tags" name="tags" placeholder="Link Tags" th:value="${#strings.listJoin(link.tags, ', ')}">
         </div>
 
         <div class="mb-3 form-check form-switch">
