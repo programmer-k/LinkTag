@@ -82,4 +82,4 @@
 - API documentation with Swagger UI
 - Filter links by title, user, and tag
 - Show other links with overlapping tags
-- Error handling`
+- Error handling
