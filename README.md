@@ -61,6 +61,7 @@
 - **[MySQL](https://www.mysql.com/)**
 - **[GitHub Actions](https://github.com/features/actions)**
 - **[Lombok](https://projectlombok.org/)**
+- **[springdoc-openapi](https://springdoc.org/)**
 
 ## Implementation Roadmap
 
