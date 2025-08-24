@@ -18,7 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
+import java.util.*;
 
 @Controller
 @RequestMapping("/links")
@@ -35,7 +35,14 @@ public class LinkController {
     @GetMapping("/{id}")
     public String findLinkById(@PathVariable Long id, Model model, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
         LinkResponse linkResponse = linkService.findLinkById(id, customUserDetails.getUserId());
+
+        Map<String, List<LinkResponse>> relatedLinks = new HashMap<>();
+        for (String tagName : linkResponse.tags()) {
+            relatedLinks.put(tagName, linkService.findAllLinksByTagName(tagName, customUserDetails.getUserId()));
+        }
+
         model.addAttribute("link", linkResponse);
+        model.addAttribute("relatedLinks", relatedLinks);
         return "link";
     }
 
