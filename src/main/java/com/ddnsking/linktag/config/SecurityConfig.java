@@ -17,6 +17,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/h2-console/**").permitAll()
+                        .requestMatchers("/swagger-ui/**",  "/v3/api-docs/**").permitAll()
                         .requestMatchers("/login", "/signup").permitAll()
                         .anyRequest().authenticated()
                 )
