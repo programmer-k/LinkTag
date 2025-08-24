@@ -38,7 +38,10 @@ public class LinkController {
 
         Map<String, List<LinkResponse>> relatedLinks = new HashMap<>();
         for (String tagName : linkResponse.tags()) {
-            relatedLinks.put(tagName, linkService.findAllLinksByTagName(tagName, customUserDetails.getUserId()));
+            List<LinkResponse> linkResponses = linkService.findAllLinksByTagName(tagName, linkResponse.id(), customUserDetails.getUserId());
+            if (!linkResponses.isEmpty()) {
+                relatedLinks.put(tagName, linkResponses);
+            }
         }
 
         model.addAttribute("link", linkResponse);
