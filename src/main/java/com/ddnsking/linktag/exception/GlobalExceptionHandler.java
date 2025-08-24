@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
-    public String handleAllExceptions(Exception ex, Model model) {
-        model.addAttribute("message", ex.getMessage() != null ? ex.getMessage() : "An unexpected error occurred.");
+    public String handleAllExceptions(Exception e, Model model) {
+        model.addAttribute("message", e.getMessage() != null ? e.getMessage() : "An unexpected error occurred.");
         return "error";
     }
 }
