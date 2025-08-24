@@ -68,6 +68,24 @@ public class LinkService {
     }
 
     @Transactional(readOnly = true)
+    public List<LinkResponse> findAllLinksByTagName(String tagName, Long linkId, Long userId) {
+        userService.findUserByIdOrThrow(userId);
+
+        return linkRepository
+                .findByTags_Name(tagName)
+                .stream()
+                .filter(link -> link.getIsPublic() || link.getCreatedBy().getId().equals(userId))
+                .filter(link -> !link.getId().equals(linkId))
+                .map(link -> new LinkResponse(link.getId(),
+                        link.getTitle(),
+                        link.getUrl(),
+                        link.getDescription(),
+                        link.getTags().stream().map(Tag::getName).toList(),
+                        link.getIsPublic()))
+                .toList();
+    }
+
+    @Transactional(readOnly = true)
     public List<LinkResponse> findAllLinks(Long userId, String title, String username, String tag) {
         userService.findUserByIdOrThrow(userId);
 

@@ -36,6 +36,28 @@
                 </div>
             </div>
         </div>
+
+        <div class="mt-4">
+            <h2 class="mb-3">Related Links</h2>
+
+            <div th:each="entry : ${relatedLinks}">
+                <h4 th:text="${entry.key}">Tag Name</h4>
+
+                <div th:each="relatedLink : ${entry.value}" class="card mb-3">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <h5 class="card-title" th:text="'🔗 ' + ${relatedLink.title}">Link Title</h5>
+                            <a th:href="${relatedLink.url}" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Open</a>
+                        </div>
+                        <p class="card-text mt-2" th:text="${relatedLink.description}">Link Description</p>
+
+                        <div class="mt-2">
+                            <span th:each="tag : ${relatedLink.tags}" class="badge bg-secondary me-1" th:text="${tag}">Tag</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 </body>
 </html>
