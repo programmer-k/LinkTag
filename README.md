@@ -78,8 +78,9 @@
 
 ### v3.0
 - Import and export functionality
-- REST API for external integrations
-- API documentation with Swagger UI
 - Filter links by title, user, and tag
 - Show other links with overlapping tags
 - Error handling
+
+## Live Demo
+Visit the live demo at [http://linktag.ddnsking.com:8080](http://linktag.ddnsking.com:8080).
